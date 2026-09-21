@@ -1,0 +1,26 @@
+{% extends "layout/base.html" %}
+{% block title %}Admin - Editar producto{% endblock %}
+
+{% block content %}
+<div class="form-box">
+  <h2>Editar producto</h2>
+  <form method="POST">
+    <label>Nombre</label>
+    <input type="text" name="nombre" value="{{ producto.nombre }}" required>
+
+    <label>Precio</label>
+    <input type="number" step="0.01" name="precio" value="{{ producto.precio }}" required>
+
+    <label>Categoría</label>
+    <input type="text" name="categoria" value="{{ producto.categoria }}">
+
+    <label>Características</label>
+    <textarea name="caracteristicas" rows="4">{{ producto.caracteristicas }}</textarea>
+
+    <label>URL de imagen</label>
+    <input type="text" name="imagen" value="{{ producto.imagen }}">
+
+    <button class="btn" type="submit">Actualizar</button>
+  </form>
+</div>
+{% endblock %}

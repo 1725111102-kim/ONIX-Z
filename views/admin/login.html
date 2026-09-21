@@ -1,0 +1,15 @@
+{% extends "layout/base.html" %}
+{% block title %}Admin - Login{% endblock %}
+
+{% block content %}
+<div class="form-box">
+  <h2>Acceso Admin</h2>
+  <form method="POST">
+    <label>Usuario</label>
+    <input type="text" name="usuario" required>
+    <label>Contraseña</label>
+    <input type="password" name="clave" required>
+    <button class="btn" type="submit">Entrar</button>
+  </form>
+</div>
+{% endblock %}

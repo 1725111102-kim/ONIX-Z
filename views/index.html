@@ -1,0 +1,21 @@
+{% extends "layout/base.html" %}
+{% block title %}ONIX Z - Catálogo{% endblock %}
+
+{% block content %}
+<div class="hero">
+  <h1>ONIX <span>Z</span></h1>
+  <p>Audio y accesorios con estilo</p>
+</div>
+
+<div class="catalogo">
+  {% for p in productos %}
+    <a href="{{ url_for('store.producto_detalle', id=p.id) }}" class="card">
+      <img src="{{ p.imagen }}" alt="{{ p.nombre }}">
+      <h3>{{ p.nombre }}</h3>
+      <p class="precio">${{ '%.2f'|format(p.precio) }}</p>
+    </a>
+  {% else %}
+    <p>Aún no hay productos en el catálogo.</p>
+  {% endfor %}
+</div>
+{% endblock %}

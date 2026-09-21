@@ -1,0 +1,35 @@
+{% extends "layout/base.html" %}
+{% block title %}Admin - Dashboard{% endblock %}
+
+{% block content %}
+<div class="admin-wrap">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <h1>Panel de productos</h1>
+    <div>
+      <a href="{{ url_for('admin.add_product') }}" class="btn">+ Agregar producto</a>
+      <a href="{{ url_for('admin.logout') }}" class="btn btn-outline">Salir</a>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Nombre</th><th>Precio</th><th>Categoría</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+      {% for p in productos %}
+      <tr>
+        <td>{{ p.nombre }}</td>
+        <td>${{ '%.2f'|format(p.precio) }}</td>
+        <td>{{ p.categoria }}</td>
+        <td>
+          <a href="{{ url_for('admin.edit_product', id=p.id) }}" class="btn btn-outline">Editar</a>
+          <a href="{{ url_for('admin.delete_product', id=p.id) }}" class="btn btn-danger" onclick="return confirm('¿Eliminar este producto?')">Eliminar</a>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4">No hay productos todavía.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
