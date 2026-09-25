@@ -2,25 +2,30 @@
 {% block title %}Admin - Agregar producto{% endblock %}
 
 {% block content %}
-<div class="form-box">
-  <h2>Agregar producto</h2>
+<div class="form-box" style="border: 1px solid var(--neon); box-shadow: 0 0 20px rgba(182,255,43,0.25);">
+  <h2>ONIX <span style="color: var(--neon);">Z</span> — Agregar producto</h2>
   <form method="POST">
     <label>Nombre</label>
-    <input type="text" name="nombre" required>
+    <input type="text" name="nombre" placeholder="Ej. Audífonos Z Pro" required>
 
     <label>Precio</label>
-    <input type="number" step="0.01" name="precio" required>
+    <input type="number" step="0.01" name="precio" placeholder="0.00" required>
 
     <label>Categoría</label>
-    <input type="text" name="categoria" placeholder="Audífonos, Bocinas, Ropa...">
+    <select name="categoria">
+      <option value="Audífonos">Audífonos</option>
+      <option value="Bocinas">Bocinas</option>
+      <option value="Botellas">Botellas</option>
+      <option value="Ropa">Ropa</option>
+    </select>
 
     <label>Características</label>
-    <textarea name="caracteristicas" rows="4"></textarea>
+    <textarea name="caracteristicas" rows="4" placeholder="Bluetooth 5.3, 40h de batería..."></textarea>
 
     <label>URL de imagen</label>
     <input type="text" name="imagen" placeholder="https://...">
 
-    <button class="btn" type="submit">Guardar</button>
+    <button class="btn" type="submit">Guardar producto</button>
   </form>
 </div>
 {% endblock %}
