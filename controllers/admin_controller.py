@@ -1,6 +1,6 @@
 from functools import wraps
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash, current_app
-from models import db, Product
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from models import db, Product, Admin
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -19,7 +19,8 @@ def login():
     if request.method == 'POST':
         usuario = request.form.get('usuario')
         clave = request.form.get('clave')
-        if usuario == current_app.config['ADMIN_USER'] and clave == current_app.config['ADMIN_PASS']:
+        admin = Admin.query.filter_by(usuario=usuario, clave=clave).first()
+        if admin:
             session['admin_logged_in'] = True
             return redirect(url_for('admin.dashboard'))
         flash('Usuario o contraseña incorrectos')
@@ -81,3 +82,20 @@ def delete_product(id):
     db.session.commit()
     flash('Producto eliminado')
     return redirect(url_for('admin.dashboard'))
+
+
+@admin_bp.route('/cambiar-contrasena', methods=['GET', 'POST'])
+@login_required
+def cambiar_contrasena():
+    admin = Admin.query.first()
+    if request.method == 'POST':
+        actual = request.form.get('actual')
+        nueva = request.form.get('nueva')
+        if admin.clave != actual:
+            flash('La contraseña actual no es correcta')
+        else:
+            admin.clave = nueva
+            db.session.commit()
+            flash('Contraseña actualizada correctamente')
+            return redirect(url_for('admin.dashboard'))
+    return render_template('admin/change_password.html')

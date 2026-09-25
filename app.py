@@ -1,6 +1,6 @@
 from flask import Flask
 from config import Config
-from models import db
+from models import db, Admin
 from controllers.store_controller import store_bp
 from controllers.admin_controller import admin_bp
 
@@ -14,6 +14,9 @@ app.register_blueprint(admin_bp)
 
 with app.app_context():
     db.create_all()
+    if not Admin.query.first():
+        db.session.add(Admin(usuario='admin', clave='onixz'))
+        db.session.commit()
 
 if __name__ == '__main__':
     app.run(debug=True)
