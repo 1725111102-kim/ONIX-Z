@@ -13,11 +13,13 @@
       <img src="{{ url_for('static', filename='img/products/' + p.imagen) if p.imagen else '' }}"
            alt="{{ p.nombre }}"
            onerror="this.src='https://via.placeholder.com/300x200/161616/b6ff2b?text=ONIX+Z'">
-      <h3>{{ p.nombre }}</h3>
-      <p class="precio">${{ '%.2f'|format(p.precio) }}</p>
+      <div class="card-body">
+        <h3>{{ p.nombre }}</h3>
+        <p class="precio">${{ '%.2f'|format(p.precio) }}</p>
+      </div>
     </a>
   {% else %}
-    <p>Aún no hay productos en el catálogo.</p>
+    <p style="padding: 0 20px;">Aún no hay productos en el catálogo.</p>
   {% endfor %}
 </div>
 {% endblock %}
