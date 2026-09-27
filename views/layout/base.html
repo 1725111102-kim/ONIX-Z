@@ -15,7 +15,9 @@
     </a>
     <div class="nav-links">
       <a href="{{ url_for('store.index') }}">Catálogo</a>
-      <a href="{{ url_for('admin.login') }}">Admin</a>
+      {% if session.get('admin_logged_in') %}
+        <a href="{{ url_for('admin.dashboard') }}">Admin</a>
+      {% endif %}
     </div>
   </nav>
 

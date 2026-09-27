@@ -13,7 +13,8 @@ class Product(db.Model):
     categoria = db.Column(db.String(60))
     imagen = db.Column(db.String(300))
 
-    class Admin(db.Model):
+
+class Admin(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     usuario = db.Column(db.String(50), unique=True)
     clave = db.Column(db.String(100))

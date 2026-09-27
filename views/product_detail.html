@@ -3,11 +3,17 @@
 
 {% block content %}
 <div class="detalle">
-  <img src="{{ producto.imagen }}" alt="{{ producto.nombre }}">
+  <img src="{{ producto.imagen }}" alt="{{ producto.nombre }}" onerror="this.src='https://via.placeholder.com/300x200/161616/b6ff2b?text=ONIX+Z'">
   <h1>{{ producto.nombre }}</h1>
   <p class="precio">${{ '%.2f'|format(producto.precio) }}</p>
   <p><strong>Categoría:</strong> {{ producto.categoria }}</p>
   <p>{{ producto.caracteristicas }}</p>
+
+  <a href="https://wa.me/527717083150?text=Hola,%20quiero%20pedir%20{{ producto.nombre|urlencode }}%20(${{ '%.2f'|format(producto.precio) }})"
+     target="_blank" class="btn" style="background:#25D366; color:#fff; box-shadow:0 0 12px rgba(37,211,102,0.5);">
+    Pedir por WhatsApp
+  </a>
+
   <a href="{{ url_for('store.index') }}" class="btn btn-outline">← Volver al catálogo</a>
 </div>
 {% endblock %}
