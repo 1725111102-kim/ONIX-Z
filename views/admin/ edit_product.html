@@ -4,7 +4,15 @@
 {% block content %}
 <div class="form-box">
   <h2>Editar producto</h2>
-  <form method="POST">
+
+  {% if producto.imagen %}
+    <p style="text-align:center;">
+      <img src="{{ url_for('static', filename='img/products/' + producto.imagen) }}"
+           style="max-width:150px; border-radius:10px;" alt="{{ producto.nombre }}">
+    </p>
+  {% endif %}
+
+  <form method="POST" enctype="multipart/form-data">
     <label>Nombre</label>
     <input type="text" name="nombre" value="{{ producto.nombre }}" required>
 
@@ -17,8 +25,8 @@
     <label>Características</label>
     <textarea name="caracteristicas" rows="4">{{ producto.caracteristicas }}</textarea>
 
-    <label>URL de imagen</label>
-    <input type="text" name="imagen" value="{{ producto.imagen }}">
+    <label>Cambiar imagen (opcional)</label>
+    <input type="file" name="imagen" accept="image/*">
 
     <button class="btn" type="submit">Actualizar</button>
   </form>

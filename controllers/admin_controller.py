@@ -1,5 +1,10 @@
+import os
 from functools import wraps
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from werkzeug.utils import secure_filename
+from flask import (
+    Blueprint, render_template, request, redirect,
+    url_for, session, flash, current_app
+)
 from models import db, Product, Admin
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
@@ -12,6 +17,17 @@ def login_required(f):
             return redirect(url_for('admin.login'))
         return f(*args, **kwargs)
     return wrapper
+
+
+def guardar_imagen(archivo):
+    """Guarda el archivo subido en static/img/products y regresa el nombre."""
+    if not archivo or not archivo.filename:
+        return None
+    nombre = secure_filename(archivo.filename)
+    carpeta = os.path.join(current_app.root_path, 'static', 'img', 'products')
+    os.makedirs(carpeta, exist_ok=True)
+    archivo.save(os.path.join(carpeta, nombre))
+    return nombre
 
 
 @admin_bp.route('/login', methods=['GET', 'POST'])
@@ -44,12 +60,13 @@ def dashboard():
 @login_required
 def add_product():
     if request.method == 'POST':
+        nombre_archivo = guardar_imagen(request.files.get('imagen'))
         nuevo = Product(
             nombre=request.form.get('nombre'),
             precio=float(request.form.get('precio')),
             caracteristicas=request.form.get('caracteristicas'),
             categoria=request.form.get('categoria'),
-            imagen=request.form.get('imagen')
+            imagen=nombre_archivo
         )
         db.session.add(nuevo)
         db.session.commit()
@@ -67,7 +84,11 @@ def edit_product(id):
         producto.precio = float(request.form.get('precio'))
         producto.caracteristicas = request.form.get('caracteristicas')
         producto.categoria = request.form.get('categoria')
-        producto.imagen = request.form.get('imagen')
+
+        nombre_archivo = guardar_imagen(request.files.get('imagen'))
+        if nombre_archivo:
+            producto.imagen = nombre_archivo  # solo la cambia si subiste una nueva
+
         db.session.commit()
         flash('Producto actualizado')
         return redirect(url_for('admin.dashboard'))
@@ -88,14 +109,3 @@ def delete_product(id):
 @login_required
 def cambiar_contrasena():
     admin = Admin.query.first()
-    if request.method == 'POST':
-        actual = request.form.get('actual')
-        nueva = request.form.get('nueva')
-        if admin.clave != actual:
-            flash('La contraseña actual no es correcta')
-        else:
-            admin.clave = nueva
-            db.session.commit()
-            flash('Contraseña actualizada correctamente')
-            return redirect(url_for('admin.dashboard'))
-    return render_template('admin/change_password.html')

@@ -10,7 +10,9 @@
 <div class="catalogo">
   {% for p in productos %}
     <a href="{{ url_for('store.producto_detalle', id=p.id) }}" class="card">
-      <img src="{{ p.imagen }}" alt="{{ p.nombre }}">
+      <img src="{{ url_for('static', filename='img/products/' + p.imagen) if p.imagen else '' }}"
+           alt="{{ p.nombre }}"
+           onerror="this.src='https://via.placeholder.com/300x200/161616/b6ff2b?text=ONIX+Z'">
       <h3>{{ p.nombre }}</h3>
       <p class="precio">${{ '%.2f'|format(p.precio) }}</p>
     </a>

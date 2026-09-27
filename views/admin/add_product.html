@@ -4,7 +4,7 @@
 {% block content %}
 <div class="form-box" style="border: 1px solid var(--neon); box-shadow: 0 0 20px rgba(182,255,43,0.25);">
   <h2>ONIX <span style="color: var(--neon);">Z</span> — Agregar producto</h2>
-  <form method="POST">
+  <form method="POST" enctype="multipart/form-data">
     <label>Nombre</label>
     <input type="text" name="nombre" placeholder="Ej. Audífonos Z Pro" required>
 
@@ -22,8 +22,8 @@
     <label>Características</label>
     <textarea name="caracteristicas" rows="4" placeholder="Bluetooth 5.3, 40h de batería..."></textarea>
 
-    <label>URL de imagen</label>
-    <input type="text" name="imagen" placeholder="https://...">
+    <label>Imagen del producto</label>
+    <input type="file" name="imagen" accept="image/*" required>
 
     <button class="btn" type="submit">Guardar producto</button>
   </form>
