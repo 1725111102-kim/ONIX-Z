@@ -7,7 +7,7 @@
 
   {% if producto.imagen %}
     <p style="text-align:center;">
-      <img src="{{ url_for('static', filename='img/products/' + producto.imagen) }}"
+      <img src="{{ producto.imagen }}"
            style="max-width:150px; border-radius:10px;" alt="{{ producto.nombre }}">
     </p>
   {% endif %}
