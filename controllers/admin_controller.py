@@ -1,4 +1,5 @@
 import os
+import uuid
 from functools import wraps
 from werkzeug.utils import secure_filename
 from flask import (
@@ -20,11 +21,15 @@ def login_required(f):
 
 
 def guardar_imagen(archivo):
-    """Guarda el archivo subido en static/img/products y regresa el nombre."""
+    """Guarda el archivo subido y devuelve un nombre de archivo único."""
     if not archivo or not archivo.filename:
         return None
-    nombre = secure_filename(archivo.filename)
-    carpeta = os.path.join(current_app.root_path, 'static', 'img', 'products')
+    nombre_seguro = secure_filename(archivo.filename)
+    if not nombre_seguro:
+        return None
+    extension = os.path.splitext(nombre_seguro)[1].lower()
+    nombre = f'{uuid.uuid4().hex}{extension}'
+    carpeta = current_app.config['UPLOAD_FOLDER']
     os.makedirs(carpeta, exist_ok=True)
     archivo.save(os.path.join(carpeta, nombre))
     return nombre

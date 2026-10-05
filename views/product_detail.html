@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="detalle">
-  <img src="{{ url_for('static', filename='img/products/' + producto.imagen) if producto.imagen else '' }}"
+  <img src="{{ url_for('store.imagen_producto', filename=producto.imagen) if producto.imagen else '' }}"
        alt="{{ producto.nombre }}"
        onerror="this.src='https://via.placeholder.com/300x200/161616/b6ff2b?text=ONIX+Z'">
   <h1>{{ producto.nombre }}</h1>

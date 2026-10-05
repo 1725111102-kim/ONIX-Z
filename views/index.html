@@ -10,12 +10,14 @@
 <div class="catalogo">
   {% for p in productos %}
     <a href="{{ url_for('store.producto_detalle', id=p.id) }}" class="card">
-      <img src="{{ url_for('static', filename='img/products/' + p.imagen) if p.imagen else '' }}"
+      <img src="{{ url_for('store.imagen_producto', filename=p.imagen) if p.imagen else '' }}"
            alt="{{ p.nombre }}"
            onerror="this.src='https://via.placeholder.com/300x200/161616/b6ff2b?text=ONIX+Z'">
       <div class="card-body">
+        {% if p.categoria %}<p class="categoria">{{ p.categoria }}</p>{% endif %}
         <h3>{{ p.nombre }}</h3>
         <p class="precio">${{ '%.2f'|format(p.precio) }}</p>
+        {% if p.caracteristicas %}<p class="caracteristicas">{{ p.caracteristicas }}</p>{% endif %}
       </div>
     </a>
   {% else %}
